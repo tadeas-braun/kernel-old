@@ -20,8 +20,6 @@
 #include <asm/mmu_context.h>
 #include <asm/syscalls.h>
 
-int sysctl_ldt16 = 0;
-
 #ifdef CONFIG_SMP
 static void flush_ldt(void *current_mm)
 {
@@ -232,6 +230,7 @@ static int write_ldt(void __user *ptr, unsigned long bytecount, int oldmode)
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	/*
 	 * On x86-64 we do not support 16-bit segments due to
@@ -239,10 +238,12 @@ static int write_ldt(void __user *ptr, unsigned long bytecount, int oldmode)
 	 */
 #ifdef CONFIG_X86_64
 	if (!ldt_info.seg_32bit && !sysctl_ldt16) {
+=======
+	if (!IS_ENABLED(CONFIG_X86_16BIT) && !ldt_info.seg_32bit) {
+>>>>>>> 3f24072... Linux 3.4.102
 		error = -EINVAL;
 		goto out_unlock;
 	}
-#endif
 
 >>>>>>> 11f0ba6... Linux 3.4.92: Merge tag 'v3.4.92' into test
 	fill_ldt(&ldt, &ldt_info);
