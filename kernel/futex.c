@@ -1287,10 +1287,6 @@ void requeue_pi_wake_futex(struct futex_q *q, union futex_key *key,
  * Wake the top waiter if we succeed.  If the caller specified set_waiters,
  * then direct futex_lock_pi_atomic() to force setting the FUTEX_WAITERS bit.
  * hb1 and hb2 must be held by the caller.
- *
- * Returns:
- *  0 - failed to acquire the lock atomicly
- * >0 - acquired the lock, return value is vpid of the top_waiter
  * <0 - error
  */
 static int futex_proxy_trylock_atomic(u32 __user *pifutex,
@@ -1475,6 +1471,7 @@ retry_private:
 			WARN_ON(pi_state);
 			drop_count++;
 			task_count++;
+
 			/*
 			 * If we acquired the lock, then the user
 			 * space value of uaddr2 should be vpid. It
